@@ -18,7 +18,7 @@ backend/          FastAPI + Python RAG pipeline
     pipeline.py   orchestration (ingest_directory, answer_question)
     db.py         SQLite query history (stdlib sqlite3; data/history.db, git-ignored)
     config.py     env-driven Settings; schemas.py Pydantic models
-  scripts/        ingest_docs.py, ask.py (CLI)
+  scripts/        ingest_docs.py, ask.py, retrieve.py (CLI)
   eval/           golden_set.jsonl, evaluate.py (CI gate), report.py
   data/raw_docs/  the corpus (only the sample file is committed)
 frontend/         React 19 + Vite + TypeScript chat UI (plain CSS, no Tailwind)

@@ -16,7 +16,7 @@ from .retrieval import bm25
 from .retrieval.hybrid import hybrid_search
 from .retrieval.rerank import rerank
 from .retrieval.vector_store import get_vector_store
-from .schemas import QueryResponse
+from .schemas import QueryResponse, RetrieveResponse
 
 
 def ingest_directory(reset: bool = True) -> tuple[int, int]:
@@ -31,6 +31,24 @@ def ingest_directory(reset: bool = True) -> tuple[int, int]:
     store.add(chunks)
     bm25.invalidate()  # force BM25 rebuild against the new corpus
     return len(docs), len(chunks)
+
+
+def retrieve_only(question: str, top_k: int | None = None) -> RetrieveResponse:
+    """Run retrieval + reranking WITHOUT calling the LLM.
+
+    Useful for inspecting/debugging retrieval quality and for a fast, $0
+    (no-generation) demo of how hybrid search + reranking score chunks.
+    """
+    settings = get_settings()
+    started = time.perf_counter()
+
+    candidates = hybrid_search(question)
+    final = rerank(question, candidates, top_k or settings.top_k_rerank)
+
+    latency_ms = (time.perf_counter() - started) * 1000
+    return RetrieveResponse(
+        question=question, chunks=final, latency_ms=round(latency_ms, 1)
+    )
 
 
 def answer_question(

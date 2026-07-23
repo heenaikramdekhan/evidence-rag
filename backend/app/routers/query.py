@@ -6,9 +6,15 @@ from fastapi import APIRouter, HTTPException, Query
 from .. import db
 from ..config import get_settings
 from ..generation.llm import LLMError
-from ..pipeline import answer_question
+from ..pipeline import answer_question, retrieve_only
 from ..retrieval.vector_store import get_vector_store
-from ..schemas import HistoryItem, QueryRequest, QueryResponse, StatsResponse
+from ..schemas import (
+    HistoryItem,
+    QueryRequest,
+    QueryResponse,
+    RetrieveResponse,
+    StatsResponse,
+)
 
 router = APIRouter(tags=["query"])
 
@@ -24,6 +30,17 @@ def query(req: QueryRequest) -> QueryResponse:
         return answer_question(req.question, req.top_k)
     except LLMError as exc:
         raise HTTPException(status_code=502, detail=str(exc)) from exc
+
+
+@router.post("/retrieve", response_model=RetrieveResponse)
+def retrieve(req: QueryRequest) -> RetrieveResponse:
+    """Return the ranked chunks for a question — retrieval only, no LLM."""
+    if get_vector_store().count() == 0:
+        raise HTTPException(
+            status_code=409,
+            detail="No documents ingested yet. Add files to data/raw_docs and POST /ingest.",
+        )
+    return retrieve_only(req.question, req.top_k)
 
 
 @router.get("/history", response_model=list[HistoryItem])

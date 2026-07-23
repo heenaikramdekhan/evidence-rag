@@ -23,6 +23,7 @@ Get a free Groq key at <https://console.groq.com>. For fully offline use, set
 python -m scripts.ingest_docs                 # indexes data/raw_docs/
 python -m scripts.ask "What is the retention period after a case closes?"
 python -m scripts.ask                          # interactive REPL
+python -m scripts.retrieve "chain of custody"   # inspect retrieval only (no LLM)
 ```
 
 The repo ships with one sample document so this works immediately. Replace
@@ -41,6 +42,7 @@ uvicorn app.main:app --reload --port 8000
 | POST   | `/ingest`  | Reindex whatever is in `data/raw_docs/`        |
 | POST   | `/upload`  | Upload files (multipart) then reindex          |
 | POST   | `/query`   | `{ "question": "..." }` → cited answer         |
+| POST   | `/retrieve`| Ranked chunks + scores, **no LLM** (inspect retrieval) |
 | GET    | `/history` | Recent queries (persisted in SQLite)           |
 | DELETE | `/history` | Clear all query history                        |
 

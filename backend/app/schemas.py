@@ -34,6 +34,14 @@ class QueryResponse(BaseModel):
     latency_ms: float
 
 
+class RetrieveResponse(BaseModel):
+    """Retrieval-only result: the ranked chunks, no LLM generation."""
+
+    question: str
+    chunks: list[Chunk]
+    latency_ms: float
+
+
 class HistoryItem(BaseModel):
     id: int
     question: str
