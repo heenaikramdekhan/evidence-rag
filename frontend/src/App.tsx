@@ -3,6 +3,7 @@ import { askQuestion, getStats, type HistoryItem, type Stats } from "./api";
 import { ChatMessage, type Message } from "./components/ChatMessage";
 import { Composer } from "./components/Composer";
 import { HistoryPanel } from "./components/HistoryPanel";
+import { UploadDialog } from "./components/UploadDialog";
 import "./App.css";
 
 let counter = 0;
@@ -14,10 +15,13 @@ export default function App() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [historyKey, setHistoryKey] = useState(0);
+  const [uploadOpen, setUploadOpen] = useState(false);
 
-  useEffect(() => {
+  function refreshStats() {
     getStats().then(setStats).catch(() => setStats(null));
-  }, []);
+  }
+
+  useEffect(refreshStats, []);
 
   function loadFromHistory(item: HistoryItem) {
     setMessages([
@@ -79,6 +83,9 @@ export default function App() {
               <span>{stats.llm_provider}</span>
             </div>
           )}
+          <button className="app__history-btn" onClick={() => setUploadOpen(true)}>
+            Upload
+          </button>
           <button className="app__history-btn" onClick={() => setHistoryOpen(true)}>
             History
           </button>
@@ -122,6 +129,12 @@ export default function App() {
         onClose={() => setHistoryOpen(false)}
         onSelect={loadFromHistory}
         refreshKey={historyKey}
+      />
+
+      <UploadDialog
+        open={uploadOpen}
+        onClose={() => setUploadOpen(false)}
+        onUploaded={refreshStats}
       />
     </div>
   );

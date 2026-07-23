@@ -300,6 +300,89 @@
   text-align: center;
 }
 
+/* ---- upload modal ---- */
+.modal__scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: grid;
+  place-items: center;
+  z-index: 30;
+  padding: 20px;
+}
+.modal {
+  width: 440px;
+  max-width: 100%;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px;
+}
+.modal__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 650;
+  margin-bottom: 14px;
+}
+.modal__close {
+  border: none;
+  background: none;
+  color: var(--muted);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+.modal__close:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.dropzone {
+  border: 2px dashed var(--border);
+  border-radius: 12px;
+  padding: 34px 18px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.dropzone:hover,
+.dropzone.is-drag {
+  border-color: var(--accent);
+  background: var(--panel-2);
+}
+.dropzone.is-busy {
+  cursor: progress;
+  opacity: 0.8;
+}
+.dropzone__icon {
+  font-size: 28px;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.dropzone__hint {
+  color: var(--text);
+}
+.dropzone__sub {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 4px;
+}
+.modal__error {
+  color: var(--danger);
+  font-size: 14px;
+  margin-top: 12px;
+}
+.modal__ok {
+  color: var(--accent);
+  font-size: 14px;
+  margin-top: 12px;
+}
+.modal__note {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 12px;
+}
+
 /* ---- history drawer ---- */
 .drawer__scrim {
   position: fixed;
