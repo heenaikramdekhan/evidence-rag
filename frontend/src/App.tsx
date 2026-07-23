@@ -3,6 +3,7 @@ import { askQuestion, getStats, type HistoryItem, type Stats } from "./api";
 import { ChatMessage, type Message } from "./components/ChatMessage";
 import { Composer } from "./components/Composer";
 import { HistoryPanel } from "./components/HistoryPanel";
+import { RetrievalInspector } from "./components/RetrievalInspector";
 import { UploadDialog } from "./components/UploadDialog";
 import "./App.css";
 
@@ -16,6 +17,7 @@ export default function App() {
   const [historyOpen, setHistoryOpen] = useState(false);
   const [historyKey, setHistoryKey] = useState(0);
   const [uploadOpen, setUploadOpen] = useState(false);
+  const [inspectOpen, setInspectOpen] = useState(false);
 
   function refreshStats() {
     getStats().then(setStats).catch(() => setStats(null));
@@ -83,6 +85,9 @@ export default function App() {
               <span>{stats.llm_provider}</span>
             </div>
           )}
+          <button className="app__history-btn" onClick={() => setInspectOpen(true)}>
+            Inspect
+          </button>
           <button className="app__history-btn" onClick={() => setUploadOpen(true)}>
             Upload
           </button>
@@ -136,6 +141,8 @@ export default function App() {
         onClose={() => setUploadOpen(false)}
         onUploaded={refreshStats}
       />
+
+      <RetrievalInspector open={inspectOpen} onClose={() => setInspectOpen(false)} />
     </div>
   );
 }

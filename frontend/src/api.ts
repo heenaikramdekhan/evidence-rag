@@ -17,6 +17,20 @@ export interface QueryResponse {
   latency_ms: number;
 }
 
+export interface Chunk {
+  id: string;
+  text: string;
+  source: string;
+  chunk_index: number;
+  score: number | null;
+}
+
+export interface RetrieveResponse {
+  question: string;
+  chunks: Chunk[];
+  latency_ms: number;
+}
+
 export interface Stats {
   collection: string;
   chunks: number;
@@ -60,6 +74,15 @@ export async function askQuestion(question: string): Promise<QueryResponse> {
     body: JSON.stringify({ question }),
   });
   return handle<QueryResponse>(res);
+}
+
+export async function retrieveChunks(question: string): Promise<RetrieveResponse> {
+  const res = await fetch(`${API_BASE}/retrieve`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ question }),
+  });
+  return handle<RetrieveResponse>(res);
 }
 
 export async function getStats(): Promise<Stats> {
