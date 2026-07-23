@@ -11,7 +11,7 @@ Everything runs on local models + a free-tier LLM API — no paid services.
 ```
 backend/          FastAPI + Python RAG pipeline
   app/
-    ingest/       loaders.py (pdf/md/html/txt) → chunker.py (sliding window)
+    ingest/       loaders.py (pdf/md/html/txt) → chunker.py (sentence/paragraph-aware)
     retrieval/    embed.py, vector_store.py (Chroma), bm25.py, hybrid.py (RRF), rerank.py (cross-encoder)
     generation/   llm.py (Groq | Ollama), answer.py (citation formatting + refusal)
     routers/      query.py, ingest.py
