@@ -1,0 +1,32 @@
+# --- Web / API ---
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+pydantic>=2.7.0
+pydantic-settings>=2.3.0
+python-multipart>=0.0.9
+
+# --- Document parsing ---
+pypdf>=4.2.0
+markdown-it-py>=3.0.0
+beautifulsoup4>=4.12.0
+
+# --- Embeddings / retrieval ---
+sentence-transformers>=3.0.0
+chromadb>=0.5.0
+rank-bm25>=0.2.2
+
+# --- LLM providers ---
+groq>=0.9.0
+httpx>=0.27.0
+
+# --- Config / utils ---
+pyyaml>=6.0.1
+python-dotenv>=1.0.1
+tqdm>=4.66.0
+
+# --- Evaluation (optional, heavier) ---
+# ragas>=0.1.0
+# datasets>=2.19.0
+
+# --- Dev / test ---
+pytest>=8.2.0

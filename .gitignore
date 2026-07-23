@@ -1,0 +1,38 @@
+# ===== Secrets / env (NEVER commit) =====
+.env
+.env.*
+!.env.example
+*.local
+
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# ===== Data / models / indexes (regenerated locally) =====
+backend/data/chroma/
+backend/data/raw_docs/*
+!backend/data/raw_docs/sample_evidence_policy.md
+*.sqlite3
+.cache/
+eval_report.md
+
+# ===== Node / frontend =====
+node_modules/
+frontend/dist/
+frontend/.vite/
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ===== Editors / OS =====
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

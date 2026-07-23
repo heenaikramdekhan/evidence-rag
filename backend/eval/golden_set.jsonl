@@ -1,0 +1,3 @@
+{"question": "REPLACE ME: a question your corpus can answer", "ground_truth": "The known-correct answer, phrased how you'd accept it.", "expect_refusal": false}
+{"question": "REPLACE ME: another in-scope question", "ground_truth": "Its correct answer.", "expect_refusal": false}
+{"question": "REPLACE ME: something clearly OUTSIDE your corpus", "ground_truth": "", "expect_refusal": true}

@@ -1,0 +1,64 @@
+// Typed client for the Evidence-RAG backend.
+
+const API_BASE = import.meta.env.VITE_API_BASE ?? "http://localhost:8000";
+
+export interface Citation {
+  id: string;
+  source: string;
+  chunk_index: number;
+  text: string;
+  score: number | null;
+}
+
+export interface QueryResponse {
+  answer: string;
+  citations: Citation[];
+  used_context: boolean;
+  latency_ms: number;
+}
+
+export interface Stats {
+  collection: string;
+  chunks: number;
+  embedding_model: string;
+  llm_provider: string;
+}
+
+export interface IngestResponse {
+  documents: number;
+  chunks: number;
+  collection: string;
+}
+
+async function handle<T>(res: Response): Promise<T> {
+  if (!res.ok) {
+    let detail = res.statusText;
+    try {
+      detail = (await res.json()).detail ?? detail;
+    } catch {
+      /* non-JSON error body */
+    }
+    throw new Error(detail);
+  }
+  return res.json() as Promise<T>;
+}
+
+export async function askQuestion(question: string): Promise<QueryResponse> {
+  const res = await fetch(`${API_BASE}/query`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ question }),
+  });
+  return handle<QueryResponse>(res);
+}
+
+export async function getStats(): Promise<Stats> {
+  return handle<Stats>(await fetch(`${API_BASE}/stats`));
+}
+
+export async function uploadFiles(files: FileList): Promise<IngestResponse> {
+  const form = new FormData();
+  Array.from(files).forEach((f) => form.append("files", f));
+  const res = await fetch(`${API_BASE}/upload`, { method: "POST", body: form });
+  return handle<IngestResponse>(res);
+}
