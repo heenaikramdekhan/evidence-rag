@@ -41,6 +41,8 @@ uvicorn app.main:app --reload --port 8000
 | POST   | `/ingest`  | Reindex whatever is in `data/raw_docs/`        |
 | POST   | `/upload`  | Upload files (multipart) then reindex          |
 | POST   | `/query`   | `{ "question": "..." }` → cited answer         |
+| GET    | `/history` | Recent queries (persisted in SQLite)           |
+| DELETE | `/history` | Clear all query history                        |
 
 Interactive docs at <http://localhost:8000/docs>.
 

@@ -19,7 +19,9 @@ env/
 backend/data/chroma/
 backend/data/raw_docs/*
 !backend/data/raw_docs/sample_evidence_policy.md
+backend/data/history.db
 *.sqlite3
+*.db
 .cache/
 eval_report.md
 

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { askQuestion, getStats, type Stats } from "./api";
+import { askQuestion, getStats, type HistoryItem, type Stats } from "./api";
 import { ChatMessage, type Message } from "./components/ChatMessage";
 import { Composer } from "./components/Composer";
+import { HistoryPanel } from "./components/HistoryPanel";
 import "./App.css";
 
 let counter = 0;
@@ -11,10 +12,26 @@ export default function App() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [busy, setBusy] = useState(false);
   const [stats, setStats] = useState<Stats | null>(null);
+  const [historyOpen, setHistoryOpen] = useState(false);
+  const [historyKey, setHistoryKey] = useState(0);
 
   useEffect(() => {
     getStats().then(setStats).catch(() => setStats(null));
   }, []);
+
+  function loadFromHistory(item: HistoryItem) {
+    setMessages([
+      { id: nextId(), role: "user", text: item.question },
+      {
+        id: nextId(),
+        role: "assistant",
+        text: item.answer,
+        citations: item.citations,
+        usedContext: item.used_context,
+        latencyMs: item.latency_ms ?? undefined,
+      },
+    ]);
+  }
 
   async function handleSend(question: string) {
     setMessages((m) => [...m, { id: nextId(), role: "user", text: question }]);
@@ -32,6 +49,7 @@ export default function App() {
           latencyMs: resp.latency_ms,
         },
       ]);
+      setHistoryKey((k) => k + 1); // new query recorded server-side
     } catch (err) {
       setMessages((m) => [
         ...m,
@@ -53,13 +71,18 @@ export default function App() {
         <div className="app__title">
           <span className="app__logo">◆</span> Evidence-RAG
         </div>
-        {stats && (
-          <div className="app__stats">
-            <span>{stats.chunks} chunks</span>
-            <span className="dot" />
-            <span>{stats.llm_provider}</span>
-          </div>
-        )}
+        <div className="app__header-right">
+          {stats && (
+            <div className="app__stats">
+              <span>{stats.chunks} chunks</span>
+              <span className="dot" />
+              <span>{stats.llm_provider}</span>
+            </div>
+          )}
+          <button className="app__history-btn" onClick={() => setHistoryOpen(true)}>
+            History
+          </button>
+        </div>
       </header>
 
       <main className="app__chat">
@@ -93,6 +116,13 @@ export default function App() {
         <Composer onSend={handleSend} disabled={busy} />
         <div className="app__hint">Enter to send · Shift+Enter for newline</div>
       </footer>
+
+      <HistoryPanel
+        open={historyOpen}
+        onClose={() => setHistoryOpen(false)}
+        onSelect={loadFromHistory}
+        refreshKey={historyKey}
+      />
     </div>
   );
 }

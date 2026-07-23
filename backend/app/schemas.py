@@ -34,6 +34,16 @@ class QueryResponse(BaseModel):
     latency_ms: float
 
 
+class HistoryItem(BaseModel):
+    id: int
+    question: str
+    answer: str
+    citations: list[Citation]
+    used_context: bool
+    latency_ms: float | None
+    created_at: str  # ISO-8601 UTC timestamp
+
+
 class IngestResponse(BaseModel):
     documents: int
     chunks: int

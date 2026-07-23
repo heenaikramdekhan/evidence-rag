@@ -16,6 +16,7 @@ backend/          FastAPI + Python RAG pipeline
     generation/   llm.py (Groq | Ollama), answer.py (citation formatting + refusal)
     routers/      query.py, ingest.py
     pipeline.py   orchestration (ingest_directory, answer_question)
+    db.py         SQLite query history (stdlib sqlite3; data/history.db, git-ignored)
     config.py     env-driven Settings; schemas.py Pydantic models
   scripts/        ingest_docs.py, ask.py (CLI)
   eval/           golden_set.jsonl, evaluate.py (CI gate), report.py

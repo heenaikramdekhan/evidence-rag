@@ -58,7 +58,7 @@ def evaluate(threshold: float) -> int:
     passed = 0
     results = []
     for row in rows:
-        resp = answer_question(row["question"])
+        resp = answer_question(row["question"], record=False)
         refused = REFUSAL.lower()[:30] in resp.answer.lower()
 
         if row.get("expect_refusal"):

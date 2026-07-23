@@ -35,6 +35,7 @@ class Settings(BaseSettings):
     # --- Storage ---
     chroma_dir: str = "./data/chroma"
     collection_name: str = "evidence"
+    history_db: str = "./data/history.db"
 
     # --- Chunking ---
     chunk_size: int = 700
@@ -49,6 +50,11 @@ class Settings(BaseSettings):
     @property
     def chroma_path(self) -> Path:
         p = Path(self.chroma_dir)
+        return p if p.is_absolute() else (BACKEND_DIR / p)
+
+    @property
+    def history_db_path(self) -> Path:
+        p = Path(self.history_db)
         return p if p.is_absolute() else (BACKEND_DIR / p)
 
     @property

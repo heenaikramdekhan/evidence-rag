@@ -21,7 +21,7 @@ def main() -> None:
     print("|---|---|---|---|")
     passed = 0
     for row in rows:
-        resp = answer_question(row["question"])
+        resp = answer_question(row["question"], record=False)
         refused = REFUSAL.lower()[:30] in resp.answer.lower()
         if row.get("expect_refusal"):
             ok = refused

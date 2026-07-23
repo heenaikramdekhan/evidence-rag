@@ -24,6 +24,16 @@ export interface Stats {
   llm_provider: string;
 }
 
+export interface HistoryItem {
+  id: number;
+  question: string;
+  answer: string;
+  citations: Citation[];
+  used_context: boolean;
+  latency_ms: number | null;
+  created_at: string;
+}
+
 export interface IngestResponse {
   documents: number;
   chunks: number;
@@ -54,6 +64,16 @@ export async function askQuestion(question: string): Promise<QueryResponse> {
 
 export async function getStats(): Promise<Stats> {
   return handle<Stats>(await fetch(`${API_BASE}/stats`));
+}
+
+export async function getHistory(limit = 50): Promise<HistoryItem[]> {
+  return handle<HistoryItem[]>(await fetch(`${API_BASE}/history?limit=${limit}`));
+}
+
+export async function clearHistory(): Promise<{ deleted: number }> {
+  return handle<{ deleted: number }>(
+    await fetch(`${API_BASE}/history`, { method: "DELETE" }),
+  );
 }
 
 export async function uploadFiles(files: FileList): Promise<IngestResponse> {

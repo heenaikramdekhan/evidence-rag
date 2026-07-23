@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import time
 
+from . import db
 from .config import get_settings
 from .generation.answer import generate_answer
 from .ingest.chunker import chunk_documents
@@ -32,7 +33,9 @@ def ingest_directory(reset: bool = True) -> tuple[int, int]:
     return len(docs), len(chunks)
 
 
-def answer_question(question: str, top_k: int | None = None) -> QueryResponse:
+def answer_question(
+    question: str, top_k: int | None = None, record: bool = True
+) -> QueryResponse:
     settings = get_settings()
     started = time.perf_counter()
 
@@ -44,9 +47,16 @@ def answer_question(question: str, top_k: int | None = None) -> QueryResponse:
     answer, citations, used_context = generate_answer(question, final)
     latency_ms = (time.perf_counter() - started) * 1000
 
-    return QueryResponse(
+    resp = QueryResponse(
         answer=answer,
         citations=citations,
         used_context=used_context,
         latency_ms=round(latency_ms, 1),
     )
+    if record:
+        # History is a nice-to-have; never fail a query because logging failed.
+        try:
+            db.save_query(question, resp)
+        except Exception as exc:  # noqa: BLE001
+            print(f"[history] failed to record query: {exc}")
+    return resp
