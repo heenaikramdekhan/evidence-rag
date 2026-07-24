@@ -1,3 +1,7 @@
-{"question": "REPLACE ME: a question your corpus can answer", "ground_truth": "The known-correct answer, phrased how you'd accept it.", "expect_refusal": false}
-{"question": "REPLACE ME: another in-scope question", "ground_truth": "Its correct answer.", "expect_refusal": false}
-{"question": "REPLACE ME: something clearly OUTSIDE your corpus", "ground_truth": "", "expect_refusal": true}
+{"question": "What is the default retention period for evidence after a case is closed?", "ground_truth": "Seven years after the case is closed and all appeal windows have expired.", "expect_refusal": false}
+{"question": "How must digital evidence be stored?", "ground_truth": "As a write-once copy, with a SHA-256 cryptographic hash of the original recorded before analysis.", "expect_refusal": false}
+{"question": "Who is allowed to access the evidence for a case?", "ground_truth": "Only authorized investigators listed on the case, with each access event recorded in the custody log.", "expect_refusal": false}
+{"question": "How is evidence disposed of after the retention period?", "ground_truth": "By a two-person team; the disposal is witnessed, documented, and the custody log is closed.", "expect_refusal": false}
+{"question": "What information is logged when an item of evidence is first collected?", "ground_truth": "A unique identifier, the collector's name, and the date, time, and location of collection.", "expect_refusal": false}
+{"question": "What is the recommended internal cooking temperature for chicken?", "ground_truth": "", "expect_refusal": true}
+{"question": "Which programming language is fastest for machine learning?", "ground_truth": "", "expect_refusal": true}
