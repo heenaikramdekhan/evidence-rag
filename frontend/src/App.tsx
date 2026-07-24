@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { askQuestion, getStats, type HistoryItem, type Stats } from "./api";
 import { ChatMessage, type Message } from "./components/ChatMessage";
 import { Composer } from "./components/Composer";
+import { DocumentsPanel } from "./components/DocumentsPanel";
 import { HistoryPanel } from "./components/HistoryPanel";
 import { RetrievalInspector } from "./components/RetrievalInspector";
 import { UploadDialog } from "./components/UploadDialog";
@@ -18,6 +19,8 @@ export default function App() {
   const [historyKey, setHistoryKey] = useState(0);
   const [uploadOpen, setUploadOpen] = useState(false);
   const [inspectOpen, setInspectOpen] = useState(false);
+  const [docsOpen, setDocsOpen] = useState(false);
+  const [docsKey, setDocsKey] = useState(0);
 
   function refreshStats() {
     getStats().then(setStats).catch(() => setStats(null));
@@ -85,6 +88,9 @@ export default function App() {
               <span>{stats.llm_provider}</span>
             </div>
           )}
+          <button className="app__history-btn" onClick={() => setDocsOpen(true)}>
+            Docs
+          </button>
           <button className="app__history-btn" onClick={() => setInspectOpen(true)}>
             Inspect
           </button>
@@ -139,10 +145,19 @@ export default function App() {
       <UploadDialog
         open={uploadOpen}
         onClose={() => setUploadOpen(false)}
-        onUploaded={refreshStats}
+        onUploaded={() => {
+          refreshStats();
+          setDocsKey((k) => k + 1); // reflect the new file in the Documents panel
+        }}
       />
 
       <RetrievalInspector open={inspectOpen} onClose={() => setInspectOpen(false)} />
+
+      <DocumentsPanel
+        open={docsOpen}
+        onClose={() => setDocsOpen(false)}
+        refreshKey={docsKey}
+      />
     </div>
   );
 }

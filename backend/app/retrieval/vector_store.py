@@ -67,6 +67,15 @@ class VectorStore:
             )
         return chunks
 
+    def list_sources(self) -> list[tuple[str, int]]:
+        """Distinct source files with their chunk counts, sorted by name."""
+        got = self._collection.get(include=["metadatas"])
+        counts: dict[str, int] = {}
+        for meta in got["metadatas"]:
+            src = meta.get("source", "unknown")
+            counts[src] = counts.get(src, 0) + 1
+        return sorted(counts.items())
+
     def query(self, question: str, top_k: int) -> list[Chunk]:
         if self.count() == 0:
             return []

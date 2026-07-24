@@ -63,8 +63,23 @@ def test_clear_history_on_empty(client):
     assert r.json() == {"deleted": 0}
 
 
+def test_documents_on_empty_index(client):
+    r = client.get("/documents")
+    assert r.status_code == 200
+    body = r.json()
+    assert body == {"documents": [], "total_documents": 0, "total_chunks": 0}
+
+
 def test_openapi_documents_core_routes(client):
     spec = client.get("/openapi.json").json()
     paths = spec["paths"]
-    for route in ("/query", "/retrieve", "/ingest", "/upload", "/history", "/stats"):
+    for route in (
+        "/query",
+        "/retrieve",
+        "/ingest",
+        "/upload",
+        "/history",
+        "/stats",
+        "/documents",
+    ):
         assert route in paths, f"{route} missing from OpenAPI schema"

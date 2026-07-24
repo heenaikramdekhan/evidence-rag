@@ -9,6 +9,8 @@ from ..generation.llm import LLMError
 from ..pipeline import answer_question, retrieve_only
 from ..retrieval.vector_store import get_vector_store
 from ..schemas import (
+    DocumentInfo,
+    DocumentsResponse,
     HistoryItem,
     QueryRequest,
     QueryResponse,
@@ -51,6 +53,18 @@ def history(limit: int = Query(default=50, ge=1, le=200)) -> list[HistoryItem]:
 @router.delete("/history")
 def clear_history() -> dict[str, int]:
     return {"deleted": db.clear_history()}
+
+
+@router.get("/documents", response_model=DocumentsResponse)
+def documents() -> DocumentsResponse:
+    """List the distinct source files in the corpus with their chunk counts."""
+    sources = get_vector_store().list_sources()
+    docs = [DocumentInfo(source=s, chunks=n) for s, n in sources]
+    return DocumentsResponse(
+        documents=docs,
+        total_documents=len(docs),
+        total_chunks=sum(d.chunks for d in docs),
+    )
 
 
 @router.get("/stats", response_model=StatsResponse)

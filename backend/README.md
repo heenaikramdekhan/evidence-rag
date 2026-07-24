@@ -43,6 +43,7 @@ uvicorn app.main:app --reload --port 8000
 | POST   | `/upload`  | Upload files (multipart) then reindex          |
 | POST   | `/query`   | `{ "question": "..." }` → cited answer         |
 | POST   | `/retrieve`| Ranked chunks + scores, **no LLM** (inspect retrieval) |
+| GET    | `/documents`| Source files in the corpus + per-file chunk counts |
 | GET    | `/history` | Recent queries (persisted in SQLite)           |
 | DELETE | `/history` | Clear all query history                        |
 

@@ -20,6 +20,7 @@ when the evidence isn't there.
 - **Hybrid retrieval + reranking** — vector + BM25 fused with RRF, then a cross-encoder reranks the top results.
 - **Sentence/paragraph-aware chunking** — chunks never cut mid-sentence; overlap carries whole sentences for context.
 - **Document upload** — drop PDF/Markdown/HTML/TXT files straight from the UI (or the CLI) and re-index.
+- **Documents panel** — see exactly which files are in the corpus and how many chunks each contributed, updated live after every upload.
 - **Query history** — every question/answer is persisted in SQLite and browsable in the UI.
 - **Retrieval inspector** — a UI panel that shows the ranked chunks and rerank scores for any query, with **no LLM call**.
 - **CI eval gate** — a golden-set eval scores answer accuracy + refusal on every PR and blocks merges below threshold.
