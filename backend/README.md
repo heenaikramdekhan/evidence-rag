@@ -57,6 +57,18 @@ python -m eval.evaluate --threshold 0.9        # exits non-zero if below thresho
 python -m eval.report > eval_report.md
 ```
 
+### Provider comparison (Groq vs. Ollama)
+
+```bash
+python -m eval.compare_providers               # both; writes eval/provider_comparison.md
+python -m eval.compare_providers --providers groq
+```
+
+Runs the golden set through each provider on identical retrieved context and
+scores accuracy + refusal + latency. For the local side, run `ollama serve` and
+`ollama pull llama3.2:3b` first; an unreachable provider is reported as
+*unavailable* instead of crashing.
+
 ## Tests
 
 ```bash

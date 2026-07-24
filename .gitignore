@@ -24,6 +24,7 @@ backend/data/history.db
 *.db
 .cache/
 eval_report.md
+backend/eval/provider_comparison.md
 
 # ===== Node / frontend =====
 node_modules/
