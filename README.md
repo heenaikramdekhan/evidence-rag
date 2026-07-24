@@ -103,7 +103,24 @@ See [`CLAUDE.md`](./CLAUDE.md) for a full map. Backend details in
 - [x] Phase 1 — core pipeline (ingest → retrieve → cited generation) + API + UI
 - [x] Phase 2 — hybrid retrieval, reranking, refusal logic, versioned prompts
 - [x] Phase 3 — golden-set eval + CI gating
-- [ ] Phase 4 (stretch) — local (Ollama) vs. free-tier (Groq) comparison write-up
+- [x] Phase 4 (stretch) — local (Ollama) vs. free-tier (Groq) comparison harness
+
+### Provider comparison (Phase 4)
+`backend/eval/compare_providers.py` runs the golden set through each LLM
+provider against the **same** retrieved context and scores them identically to
+the eval gate, plus end-to-end latency — so any difference is the model's doing,
+not the retrieval.
+
+```bash
+cd backend
+python -m eval.compare_providers                 # both providers
+python -m eval.compare_providers --providers groq   # just one
+```
+
+It writes a markdown report (`eval/provider_comparison.md`) with a summary table,
+per-question breakdown, and latency. Groq runs out of the box; for the local
+side, `ollama serve` and `ollama pull llama3.2:3b` first (an unreachable provider
+is reported as *unavailable* rather than crashing the run).
 
 ---
 *Built with free-tier APIs and local tools — no cost incurred.*
