@@ -44,6 +44,7 @@ uvicorn app.main:app --reload --port 8000
 | POST   | `/query`   | `{ "question": "..." }` → cited answer         |
 | POST   | `/retrieve`| Ranked chunks + scores, **no LLM** (inspect retrieval) |
 | GET    | `/documents`| Source files in the corpus + per-file chunk counts |
+| GET    | `/documents/{source}`| One document's full text, chunk by chunk (view) |
 | GET    | `/history` | Recent queries (persisted in SQLite)           |
 | DELETE | `/history` | Clear all query history                        |
 

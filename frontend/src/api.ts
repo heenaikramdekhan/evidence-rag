@@ -65,6 +65,11 @@ export interface DocumentsResponse {
   total_chunks: number;
 }
 
+export interface DocumentChunksResponse {
+  source: string;
+  chunks: Chunk[];
+}
+
 async function handle<T>(res: Response): Promise<T> {
   if (!res.ok) {
     let detail = res.statusText;
@@ -102,6 +107,14 @@ export async function getStats(): Promise<Stats> {
 
 export async function getDocuments(): Promise<DocumentsResponse> {
   return handle<DocumentsResponse>(await fetch(`${API_BASE}/documents`));
+}
+
+export async function getDocumentChunks(
+  source: string,
+): Promise<DocumentChunksResponse> {
+  return handle<DocumentChunksResponse>(
+    await fetch(`${API_BASE}/documents/${encodeURIComponent(source)}`),
+  );
 }
 
 export async function getHistory(limit = 50): Promise<HistoryItem[]> {

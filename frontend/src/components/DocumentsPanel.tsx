@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { getDocuments, type DocumentsResponse } from "../api";
+import {
+  getDocumentChunks,
+  getDocuments,
+  type Chunk,
+  type DocumentsResponse,
+} from "../api";
 
 // Pick a small glyph per file type so the list scans quickly.
 function iconFor(source: string): string {
@@ -21,6 +26,10 @@ export function DocumentsPanel({
 }) {
   const [data, setData] = useState<DocumentsResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [expanded, setExpanded] = useState<string | null>(null);
+  const [chunks, setChunks] = useState<Record<string, Chunk[]>>({});
+  const [loading, setLoading] = useState<string | null>(null);
+  const [viewError, setViewError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!open) return;
@@ -31,6 +40,32 @@ export function DocumentsPanel({
       })
       .catch((e) => setError(e instanceof Error ? e.message : "Failed to load"));
   }, [open, refreshKey]);
+
+  // A fresh ingest can rename/replace files — drop any cached chunk views.
+  useEffect(() => {
+    setChunks({});
+    setExpanded(null);
+  }, [refreshKey]);
+
+  async function toggle(source: string) {
+    if (expanded === source) {
+      setExpanded(null);
+      return;
+    }
+    setExpanded(source);
+    setViewError(null);
+    if (chunks[source]) return; // already fetched
+    setLoading(source);
+    try {
+      const res = await getDocumentChunks(source);
+      setChunks((c) => ({ ...c, [source]: res.chunks }));
+    } catch (e) {
+      setViewError(e instanceof Error ? e.message : "Failed to load document");
+      setExpanded(null);
+    } finally {
+      setLoading(null);
+    }
+  }
 
   return (
     <>
@@ -55,18 +90,48 @@ export function DocumentsPanel({
             <>
               <p className="doc-summary">
                 {data.total_documents} document(s) · {data.total_chunks} chunk(s)
+                {" · click to view"}
               </p>
-              {data.documents.map((d) => (
-                <div key={d.source} className="doc-item">
-                  <span className="doc-item__icon">{iconFor(d.source)}</span>
-                  <span className="doc-item__name" title={d.source}>
-                    {d.source}
-                  </span>
-                  <span className="doc-item__chunks">
-                    {d.chunks} chunk{d.chunks === 1 ? "" : "s"}
-                  </span>
-                </div>
-              ))}
+              {data.documents.map((d) => {
+                const isOpen = expanded === d.source;
+                return (
+                  <div key={d.source} className="doc">
+                    <button
+                      className={`doc-item ${isOpen ? "is-open" : ""}`}
+                      onClick={() => toggle(d.source)}
+                      aria-expanded={isOpen}
+                    >
+                      <span className="doc-item__icon">{iconFor(d.source)}</span>
+                      <span className="doc-item__name" title={d.source}>
+                        {d.source}
+                      </span>
+                      <span className="doc-item__chunks">
+                        {d.chunks} chunk{d.chunks === 1 ? "" : "s"}
+                      </span>
+                      <span className="doc-item__caret">{isOpen ? "▾" : "▸"}</span>
+                    </button>
+
+                    {isOpen && (
+                      <div className="doc-view">
+                        {loading === d.source && (
+                          <p className="doc-view__hint">Loading…</p>
+                        )}
+                        {viewError && (
+                          <p className="doc-view__hint">{viewError}</p>
+                        )}
+                        {chunks[d.source]?.map((c) => (
+                          <div key={c.id} className="doc-chunk">
+                            <span className="doc-chunk__label">
+                              chunk {c.chunk_index}
+                            </span>
+                            <p className="doc-chunk__text">{c.text}</p>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </>
           )}
         </div>

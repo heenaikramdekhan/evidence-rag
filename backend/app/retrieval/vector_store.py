@@ -76,6 +76,22 @@ class VectorStore:
             counts[src] = counts.get(src, 0) + 1
         return sorted(counts.items())
 
+    def chunks_for(self, source: str) -> list[Chunk]:
+        """Every chunk belonging to one source file, ordered by chunk_index."""
+        got = self._collection.get(
+            where={"source": source}, include=["documents", "metadatas"]
+        )
+        chunks = [
+            Chunk(
+                id=cid,
+                text=doc,
+                source=meta.get("source", "unknown"),
+                chunk_index=int(meta.get("chunk_index", 0)),
+            )
+            for cid, doc, meta in zip(got["ids"], got["documents"], got["metadatas"])
+        ]
+        return sorted(chunks, key=lambda c: c.chunk_index)
+
     def query(self, question: str, top_k: int) -> list[Chunk]:
         if self.count() == 0:
             return []

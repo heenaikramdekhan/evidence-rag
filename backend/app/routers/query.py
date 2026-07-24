@@ -9,6 +9,7 @@ from ..generation.llm import LLMError
 from ..pipeline import answer_question, retrieve_only
 from ..retrieval.vector_store import get_vector_store
 from ..schemas import (
+    DocumentChunksResponse,
     DocumentInfo,
     DocumentsResponse,
     HistoryItem,
@@ -65,6 +66,17 @@ def documents() -> DocumentsResponse:
         total_documents=len(docs),
         total_chunks=sum(d.chunks for d in docs),
     )
+
+
+@router.get("/documents/{source:path}", response_model=DocumentChunksResponse)
+def document_chunks(source: str) -> DocumentChunksResponse:
+    """Return the full text of one document, chunk by chunk (for viewing)."""
+    chunks = get_vector_store().chunks_for(source)
+    if not chunks:
+        raise HTTPException(
+            status_code=404, detail=f"No document named {source!r} in the corpus."
+        )
+    return DocumentChunksResponse(source=source, chunks=chunks)
 
 
 @router.get("/stats", response_model=StatsResponse)

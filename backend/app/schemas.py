@@ -74,3 +74,8 @@ class DocumentsResponse(BaseModel):
     documents: list[DocumentInfo]
     total_documents: int
     total_chunks: int
+
+
+class DocumentChunksResponse(BaseModel):
+    source: str
+    chunks: list[Chunk]  # the document's chunks, ordered by chunk_index

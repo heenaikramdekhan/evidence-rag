@@ -70,6 +70,12 @@ def test_documents_on_empty_index(client):
     assert body == {"documents": [], "total_documents": 0, "total_chunks": 0}
 
 
+def test_document_view_missing_returns_404(client):
+    r = client.get("/documents/nope.pdf")
+    assert r.status_code == 404
+    assert "nope.pdf" in r.json()["detail"]
+
+
 def test_openapi_documents_core_routes(client):
     spec = client.get("/openapi.json").json()
     paths = spec["paths"]
