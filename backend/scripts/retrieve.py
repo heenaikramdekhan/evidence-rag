@@ -18,6 +18,13 @@ from app.pipeline import retrieve_only  # noqa: E402
 
 
 def main() -> None:
+    # Chunk previews come from documents and may contain unicode the Windows
+    # console (cp1252) can't encode — keep stdout from crashing on them.
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except AttributeError:  # pragma: no cover  (very old Python)
+        pass
+
     ap = argparse.ArgumentParser()
     ap.add_argument("question", nargs="+", help="the query to retrieve for")
     ap.add_argument("--top-k", type=int, default=None, help="how many chunks to keep")
