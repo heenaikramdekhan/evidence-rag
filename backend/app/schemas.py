@@ -63,3 +63,19 @@ class StatsResponse(BaseModel):
     chunks: int
     embedding_model: str
     llm_provider: str
+
+
+class DocumentInfo(BaseModel):
+    source: str  # filename as ingested
+    chunks: int  # how many chunks this document contributed
+
+
+class DocumentsResponse(BaseModel):
+    documents: list[DocumentInfo]
+    total_documents: int
+    total_chunks: int
+
+
+class DocumentChunksResponse(BaseModel):
+    source: str
+    chunks: list[Chunk]  # the document's chunks, ordered by chunk_index
