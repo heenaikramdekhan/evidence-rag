@@ -24,6 +24,16 @@ when the evidence isn't there.
 - **Retrieval inspector** — a UI panel that shows the ranked chunks and rerank scores for any query, with **no LLM call**.
 - **CI eval gate** — a golden-set eval scores answer accuracy + refusal on every PR and blocks merges below threshold.
 
+## Screenshots
+
+> Placeholder mockups for now — see [`docs/screenshots/`](./docs/screenshots/) to swap in real captures of the running app.
+
+| Cited answer + refusal | Retrieval inspector |
+|:---:|:---:|
+| ![Chat with cited answer](./docs/screenshots/chat.svg) | ![Retrieval inspector](./docs/screenshots/inspector.svg) |
+| **Document upload** | **Query history** |
+| ![Upload dialog](./docs/screenshots/upload.svg) | ![Query history](./docs/screenshots/history.svg) |
+
 ## Architecture
 
 ```

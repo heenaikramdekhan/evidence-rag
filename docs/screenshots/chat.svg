@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="580" viewBox="0 0 860 580" font-family="-apple-system, Segoe UI, Roboto, sans-serif">
+  <rect width="860" height="580" fill="#0b0e14"/>
+  <!-- header -->
+  <rect x="0" y="0" width="860" height="56" fill="#12161f"/>
+  <line x1="0" y1="56" x2="860" y2="56" stroke="#232a38"/>
+  <text x="24" y="34" font-size="17" font-weight="650">
+    <tspan fill="#9d7bff">◆</tspan><tspan fill="#e6e9ef"> Evidence-RAG</tspan>
+  </text>
+  <text x="548" y="33" font-size="12" fill="#8a93a6">1 chunk • groq</text>
+  <g font-size="12" font-weight="550" fill="#e6e9ef">
+    <rect x="628" y="16" width="66" height="26" rx="8" fill="#171c27" stroke="#232a38"/><text x="641" y="33">Inspect</text>
+    <rect x="702" y="16" width="62" height="26" rx="8" fill="#171c27" stroke="#232a38"/><text x="714" y="33">Upload</text>
+    <rect x="772" y="16" width="64" height="26" rx="8" fill="#171c27" stroke="#232a38"/><text x="783" y="33">History</text>
+  </g>
+  <!-- user message (right) -->
+  <rect x="452" y="90" width="34" height="34" rx="9" fill="#1f6feb"/>
+  <text x="469" y="112" font-size="10" font-weight="700" fill="#fff" text-anchor="middle">YOU</text>
+  <rect x="196" y="90" width="242" height="42" rx="12" fill="#1f6feb"/>
+  <text x="216" y="116" font-size="13.5" fill="#ffffff">What is the retention period after a case closes?</text>
+  <!-- assistant message (left) -->
+  <rect x="24" y="160" width="34" height="34" rx="9" fill="#171c27" stroke="#232a38"/>
+  <text x="41" y="182" font-size="9" font-weight="700" fill="#8a93a6" text-anchor="middle">RAG</text>
+  <rect x="70" y="160" width="620" height="118" rx="12" fill="#171c27" stroke="#232a38"/>
+  <text x="90" y="188" font-size="13.5" fill="#e6e9ef">Evidence for a closed case is retained for seven years after closure and</text>
+  <text x="90" y="210" font-size="13.5" fill="#e6e9ef">after all appeal windows expire <tspan fill="#6ea8fe" font-weight="650">[1]</tspan>, unless a court order specifies</text>
+  <text x="90" y="232" font-size="13.5" fill="#e6e9ef">otherwise <tspan fill="#6ea8fe" font-weight="650">[1]</tspan>. Disposal is then handled by a two-person team <tspan fill="#6ea8fe" font-weight="650">[2]</tspan>.</text>
+  <!-- sources -->
+  <text x="90" y="262" font-size="11" font-weight="650" fill="#8a93a6" letter-spacing="0.5">SOURCES</text>
+  <rect x="70" y="292" width="620" height="52" rx="10" fill="#12161f" stroke="#232a38"/>
+  <circle cx="92" cy="312" r="9" fill="#6ea8fe"/><text x="92" y="316" font-size="11" font-weight="700" fill="#0b0e14" text-anchor="middle">1</text>
+  <text x="112" y="310" font-size="12.5" fill="#e6e9ef" font-weight="600">sample_evidence_policy.md · chunk 0</text>
+  <text x="112" y="330" font-size="11.5" fill="#8a93a6">…default retention period after closure is seven years, unless a court…</text>
+  <rect x="70" y="354" width="620" height="52" rx="10" fill="#12161f" stroke="#232a38"/>
+  <circle cx="92" cy="374" r="9" fill="#6ea8fe"/><text x="92" y="378" font-size="11" font-weight="700" fill="#0b0e14" text-anchor="middle">2</text>
+  <text x="112" y="372" font-size="12.5" fill="#e6e9ef" font-weight="600">sample_evidence_policy.md · chunk 0</text>
+  <text x="112" y="392" font-size="11.5" fill="#8a93a6">…evidence is disposed of by a two-person team. The disposal is witnessed…</text>
+  <!-- composer -->
+  <rect x="24" y="500" width="812" height="46" rx="12" fill="#12161f" stroke="#232a38"/>
+  <text x="44" y="528" font-size="13.5" fill="#8a93a6">Ask your documents anything…</text>
+  <rect x="770" y="510" width="52" height="26" rx="8" fill="#6ea8fe"/><text x="796" y="528" font-size="12.5" font-weight="650" fill="#0b0e14" text-anchor="middle">Send</text>
+  <!-- mockup badge -->
+  <rect x="720" y="66" width="140" height="20" fill="#9d7bff"/>
+  <text x="790" y="80" font-size="11" font-weight="700" fill="#0b0e14" text-anchor="middle">MOCKUP — not a real screenshot</text>
+</svg>

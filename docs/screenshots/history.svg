@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="580" viewBox="0 0 860 580" font-family="-apple-system, Segoe UI, Roboto, sans-serif">
+  <rect width="860" height="580" fill="#0b0e14"/>
+  <rect x="0" y="0" width="480" height="580" fill="#0e1119" opacity="0.6"/>
+  <!-- drawer (right) -->
+  <rect x="480" y="0" width="380" height="580" fill="#12161f"/>
+  <line x1="480" y1="0" x2="480" y2="580" stroke="#232a38"/>
+  <text x="504" y="38" font-size="15" font-weight="650" fill="#e6e9ef">Query history</text>
+  <text x="828" y="40" font-size="20" fill="#8a93a6" text-anchor="middle">×</text>
+  <line x1="480" y1="58" x2="860" y2="58" stroke="#232a38"/>
+  <rect x="736" y="72" width="100" height="26" rx="8" fill="#171c27" stroke="#232a38"/>
+  <text x="786" y="89" font-size="11.5" fill="#8a93a6" text-anchor="middle">Clear all</text>
+
+  <!-- history items -->
+  <g>
+    <rect x="504" y="116" width="332" height="70" rx="10" fill="#171c27" stroke="#232a38"/>
+    <text x="520" y="140" font-size="12.5" fill="#e6e9ef" font-weight="600">Retention period after a case closes?</text>
+    <text x="520" y="160" font-size="11" fill="#8a93a6">Seven years after closure and appeal windows…</text>
+    <text x="520" y="178" font-size="10.5" fill="#6ea8fe">2 sources · 973 ms · Jul 24, 14:22</text>
+  </g>
+  <g>
+    <rect x="504" y="198" width="332" height="70" rx="10" fill="#171c27" stroke="#232a38"/>
+    <text x="520" y="222" font-size="12.5" fill="#e6e9ef" font-weight="600">How must digital evidence be stored?</text>
+    <text x="520" y="242" font-size="11" fill="#8a93a6">As a write-once copy with a SHA-256 hash…</text>
+    <text x="520" y="260" font-size="10.5" fill="#6ea8fe">1 source · 1006 ms · Jul 24, 14:20</text>
+  </g>
+  <g>
+    <rect x="504" y="280" width="332" height="70" rx="10" fill="#171c27" stroke="#232a38"/>
+    <text x="520" y="304" font-size="12.5" fill="#e6e9ef" font-weight="600">Who can access the evidence for a case?</text>
+    <text x="520" y="324" font-size="11" fill="#8a93a6">Only authorized investigators listed on the case…</text>
+    <text x="520" y="342" font-size="10.5" fill="#6ea8fe">1 source · 1128 ms · Jul 24, 14:18</text>
+  </g>
+  <g>
+    <rect x="504" y="362" width="332" height="70" rx="10" fill="#171c27" stroke="#232a38"/>
+    <text x="520" y="386" font-size="12.5" fill="#e6e9ef" font-weight="600">Fastest programming language for ML?</text>
+    <text x="520" y="406" font-size="11" fill="#8a93a6" font-style="italic">Refused — not supported by the corpus.</text>
+    <text x="520" y="424" font-size="10.5" fill="#8a93a6">0 sources · 1009 ms · Jul 24, 14:15</text>
+  </g>
+
+  <text x="40" y="300" font-size="13" fill="#8a93a6" font-weight="600">Persisted in SQLite —</text>
+  <text x="40" y="322" font-size="13" fill="#8a93a6" font-weight="600">click any to reload it</text>
+
+  <rect x="720" y="66" width="140" height="20" fill="#9d7bff"/>
+  <text x="790" y="80" font-size="11" font-weight="700" fill="#0b0e14" text-anchor="middle">MOCKUP — not a real screenshot</text>
+</svg>
