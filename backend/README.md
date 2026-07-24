@@ -51,7 +51,8 @@ Interactive docs at <http://localhost:8000/docs>.
 ## Evaluation
 
 ```bash
-# Fill in eval/golden_set.jsonl with your own Q/A pairs first.
+# eval/golden_set.jsonl ships a real set seeded from the sample doc;
+# swap in your own Q/A pairs once you load your corpus.
 python -m eval.evaluate --threshold 0.9        # exits non-zero if below threshold
 python -m eval.report > eval_report.md
 ```
