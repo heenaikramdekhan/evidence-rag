@@ -15,6 +15,13 @@ from eval.evaluate import _overlap, load_golden  # noqa: E402
 
 
 def main() -> None:
+    # The report uses unicode (✅/❌); keep it printable when stdout is a
+    # Windows console or a redirected file (both default to cp1252).
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except AttributeError:  # pragma: no cover  (very old Python)
+        pass
+
     rows = load_golden()
     print("# Evidence-RAG evaluation report\n")
     print("| Question | Expected | Result | Detail |")

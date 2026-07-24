@@ -28,6 +28,13 @@ def _print(question: str) -> None:
 
 
 def main() -> None:
+    # Answers/citations come from documents and may contain unicode the Windows
+    # console (cp1252) can't encode — keep stdout from crashing on them.
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except AttributeError:  # pragma: no cover  (very old Python)
+        pass
+
     if len(sys.argv) > 1:
         _print(" ".join(sys.argv[1:]))
         return
