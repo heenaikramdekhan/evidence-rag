@@ -14,6 +14,16 @@ when the evidence isn't there.
 
 ---
 
+## Features
+- **Grounded answers with inline `[n]` citations** — every claim maps back to the exact retrieved chunk.
+- **Refusal when unsupported** — the system says so instead of hallucinating when the evidence isn't in the corpus.
+- **Hybrid retrieval + reranking** — vector + BM25 fused with RRF, then a cross-encoder reranks the top results.
+- **Sentence/paragraph-aware chunking** — chunks never cut mid-sentence; overlap carries whole sentences for context.
+- **Document upload** — drop PDF/Markdown/HTML/TXT files straight from the UI (or the CLI) and re-index.
+- **Query history** — every question/answer is persisted in SQLite and browsable in the UI.
+- **Retrieval inspector** — a UI panel that shows the ranked chunks and rerank scores for any query, with **no LLM call**.
+- **CI eval gate** — a golden-set eval scores answer accuracy + refusal on every PR and blocks merges below threshold.
+
 ## Architecture
 
 ```
@@ -33,7 +43,7 @@ when the evidence isn't there.
 | Layer            | Tool                                                    |
 |------------------|---------------------------------------------------------|
 | Parsing          | `pypdf`, `markdown-it-py`, `beautifulsoup4`             |
-| Chunking         | Hand-rolled sliding window (~700 tok, 100 overlap)      |
+| Chunking         | Sentence/paragraph-aware windows (~700 tok, 100 overlap)|
 | Embeddings       | `sentence-transformers` · `all-MiniLM-L6-v2` (local CPU)|
 | Vector store     | ChromaDB (on-disk)                                      |
 | Keyword search   | `rank_bm25`                                             |
@@ -74,10 +84,16 @@ Drop 10–50 PDF/Markdown/HTML/TXT files into `backend/data/raw_docs/`, then
 `backend/eval/golden_set.jsonl` with question/answer pairs from *your* corpus.
 
 ## Evaluation & CI
-`backend/eval/evaluate.py` scores the golden set (answer accuracy + refusal
-correctness) and exits non-zero below the threshold. The GitHub Actions workflow
-(`.github/workflows/eval.yml`) runs unit tests + the eval on every PR, gating
-merges on quality.
+`backend/eval/golden_set.jsonl` ships a real evaluation set seeded from the
+sample policy — in-scope questions with source-grounded answers plus
+out-of-scope questions that must be refused. `backend/eval/evaluate.py` scores it
+(answer accuracy + refusal correctness) and exits non-zero below the threshold.
+The GitHub Actions workflow (`.github/workflows/eval.yml`) runs unit tests + the
+eval on every PR, gating merges on quality. Swap in your own Q/A pairs once you
+load your corpus.
+
+> CI's eval job needs a `GROQ_API_KEY` repository secret
+> (Settings → Secrets and variables → Actions) to call the LLM.
 
 ## Project layout
 See [`CLAUDE.md`](./CLAUDE.md) for a full map. Backend details in
